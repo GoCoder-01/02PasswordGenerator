@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import './App.css'
 
 function App() {
@@ -7,61 +7,59 @@ function App() {
   const [characterAllowed, setCharacterAllowed] = useState(false);
   const [password, setPassword] = useState("");
 
+  console.log(password);
   const passswordGenerator = useCallback(()=>{
     let pass="";
     let passwordString="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
    
     if(numberAllowed){
-      passwordString += "0123456789";
+      passwordString= passwordString.concat("0123456789");
     } 
     if(characterAllowed){
-      passwordString +="~!@#$%^&*()_+/{}[]?.><";
-    } 
-    console.log(passwordString);
+      passwordString = passwordString.concat("~!@#$%^&*()_+/{}[]?.><");
+    }
     for (let i = 1; i <= length; i++) {
-      let charPos= Math.floor(Math.random() * passwordString.length +1);
+      let charPos= Math.floor(Math.random() * passwordString.length);
       pass += passwordString.charAt(charPos);
     }
-
     setPassword(pass);
-    console.log(password +" "+passwordString+" "+numberAllowed);
-  }, [length, numberAllowed, characterAllowed, ]);
-/*
-  const passswordGenerator = ()=>{
-    let pass="";
-    let passwordString="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-    if(numberAllowed) passwordString += "0123456789";
-    if(characterAllowed) passwordString +="~!@#$%^&*()_+/{}[]?.><";
+  }, [length, numberAllowed, characterAllowed, setPassword]);
 
-    for (let i = 1; i <= length; i++) {
-      let charPos= Math.floor(Math.random() * length +1);
-      
-      pass += passwordString.charAt(charPos);
-      console.log(pass);
-    }
-
-    setPassword(pass);
-  }
-    */
 useEffect(() =>{
   passswordGenerator()
-}, [length, numberAllowed, characterAllowed, passswordGenerator])
+}, [length, numberAllowed, characterAllowed])
 
   return (
     <>
-      <div className='w-full max-w-md mx-auto shadow-md bg-gray-600 rounded-lg text-white px-4 my-8 pt-4'>
+      
+      <div className='w-full max-w-md mx-auto shadow-md bg-gray-600 rounded-lg text-black px-4 my-8 pt-4'>
         <h1 className='text-center text-xl'>Password Generator</h1>
         <div className='flex shadow rounded-lg overflow-hidden my-4'>
-          <input 
+          {/* <input 
           type="text"
-          value={password}
+          value="Happy"
           className='outline-none px-3 py-1 w-full'
           placeholder='password'
           readOnly
-          />
+          /> */}
+          
+          <input 
+            type="text" 
+            name='password'
+            value={password}
+            className='outline-none px-3 py-1 w-full'
+            readOnly
+        />
+        
+         
 
-          <button className='bg-blue-700 text-white outline-none px-3 py-0.5 shrink-0'>copy</button>
+          <button 
+            className='bg-blue-700 text-white outline-none px-3 py-0.5 shrink-0 cursor-pointer'
+            
+            >copy</button>
         </div>
+
+
         <div className='flex text-sm gap-x-2 text-orange-400'>
           <div className='flex items-center gap-x-1 my-4 '>
             <input

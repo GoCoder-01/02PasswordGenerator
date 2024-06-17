@@ -6,6 +6,7 @@ function App() {
   const [numberAllowed, setNumberAllowed] = useState(false);
   const [characterAllowed, setCharacterAllowed] = useState(false);
   const [password, setPassword] = useState("");
+  const passwordRef = useRef(null)
 
   console.log(password);
   const passswordGenerator = useCallback(()=>{
@@ -48,6 +49,7 @@ useEffect(() =>{
             name='password'
             value={password}
             className='outline-none px-3 py-1 w-full'
+            ref={passwordRef}
             readOnly
         />
         
@@ -55,7 +57,10 @@ useEffect(() =>{
 
           <button 
             className='bg-blue-700 text-white outline-none px-3 py-0.5 shrink-0 cursor-pointer'
-            
+            onClick={() =>{
+              window.navigator.clipboard.writeText(passwordRef.current.value);
+              passwordRef.current.select();
+            }}
             >copy</button>
         </div>
 
